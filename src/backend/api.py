@@ -100,6 +100,20 @@ async def websocket_endpoint(websocket: WebSocket):
         if websocket in active_connections:
             active_connections.remove(websocket)
 
+import os
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
+
+frontend_path = os.path.join(os.path.dirname(__file__), "../../frontend")
+if os.path.exists(frontend_path):
+    # Mount css/js directories directly so references like 'css/style.css' work
+    app.mount("/css", StaticFiles(directory=os.path.join(frontend_path, "css")), name="css")
+    app.mount("/js", StaticFiles(directory=os.path.join(frontend_path, "js")), name="js")
+
+    @app.get("/")
+    async def serve_index():
+        return FileResponse(os.path.join(frontend_path, "index.html"))
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("src.backend.api:app", host="0.0.0.0", port=8000, reload=True)

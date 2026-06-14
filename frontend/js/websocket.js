@@ -1,4 +1,5 @@
-const WS_URL = "ws://localhost:8000/ws";
+const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+const WS_URL = `${wsProtocol}//${window.location.host}/ws`;
 
 class FreqBridgeStream {
     constructor() {
