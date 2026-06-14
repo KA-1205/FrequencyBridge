@@ -6,7 +6,7 @@ matplotlib>=3.7
 
 # API Backend
 fastapi>=0.100
-uvicorn>=0.23
+uvicorn[standard]>=0.23
 requests>=2.31
 
 # Configuration
